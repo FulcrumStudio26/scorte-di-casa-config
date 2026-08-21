@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scorte di Casa — invito</title>
+<!--
+  Pagina di atterraggio dell'invito a una casa.
+
+  Perché esiste: WhatsApp, Messaggi e compagnia rendono cliccabile solo ciò che
+  comincia per http o https. Un link con schema nostro (scortedicasa://) resta
+  testo morto nel messaggio, che chi riceve dovrebbe selezionare a mano. Quindi
+  l'app manda l'indirizzo di QUESTA pagina, e la pagina offre il pulsante che
+  apre l'app.
+
+  Il codice arriva nel FRAMMENTO (#c=K7QM9XR4), non fra i parametri: il
+  frammento non viene mai spedito al server, quindi il codice di casa non
+  finisce nei log di GitHub Pages né nelle anteprime che i messaggeri generano
+  da soli aprendo il link.
+
+  Dove va pubblicata: nel repo `scorte-di-casa-config` (lo stesso di config.json),
+  come `invito.html`. L'indirizzo risultante va scritto in app.json ›
+  extra.invito.url. Se un domani si sposta su un dominio proprio, basta cambiare
+  quella riga: i link già mandati continuano a funzionare finché GitHub Pages
+  risponde.
+
+  Non ha dipendenze esterne: nessun font, nessuno script, nessuna immagine da
+  scaricare. Si apre anche con una connessione pessima.
+-->
+<style>
+  :root {
+    --ink: #1F261F; --muted: #70766A; --bg: #F6F3EB; --surface: #FFFFFF;
+    --well: #EDE9DC; --line: #E9E5D8; --acc: #3F5E9E; --deep: #2C4475; --soft: #E2E9F5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #F4F2EA; --muted: #A8AC9F; --bg: #15190F; --surface: #1E2318;
+      --well: #262C1F; --line: #333A2A; --acc: #8FACE0; --deep: #C7D6EF; --soft: #253048;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 18px 40px; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55; display: flex; justify-content: center;
+  }
+  main { width: 100%; max-width: 420px; }
+  h1 { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+  p { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .carta {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 18px; margin: 18px 0;
+  }
+  .etichetta { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .codice {
+    font-size: 30px; font-weight: 800; letter-spacing: 4px; word-break: break-all;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  a.bottone, button.bottone {
+    display: block; width: 100%; text-align: center; text-decoration: none;
+    font: inherit; font-weight: 700; font-size: 16px; padding: 14px 18px;
+    border-radius: 14px; border: 1.5px solid var(--acc); cursor: pointer;
+    margin-bottom: 10px;
+  }
+  a.bottone { background: var(--acc); color: var(--surface); }
+  button.bottone { background: transparent; color: var(--deep); }
+  .nota { font-size: 13.5px; color: var(--muted); }
+  #senzaCodice { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="titolo">Ti hanno invitato in una casa</h1>
+  <p id="sottotitolo">Questo codice mette il tuo telefono in comune con la dispensa e la lista della spesa di quella casa.</p>
+
+  <div class="carta">
+    <div class="etichetta" id="etichettaCodice">Codice della casa</div>
+    <div class="codice" id="codice">—</div>
+  </div>
+
+  <a class="bottone" id="apri" href="#">Apri nell'app</a>
+  <button class="bottone" id="copia" type="button">Copia il codice</button>
+
+  <p class="nota" id="nota">Se non hai ancora l'app: installala, poi apri Impostazioni › Sincronizzazione cloud e scrivi il codice qui sopra.</p>
+  <p class="nota" id="senzaCodice">Questo link non contiene nessun codice. Fattelo rimandare da chi ti ha invitato.</p>
+</main>
+
+<script>
+(function () {
+  // ——— testi, nelle stesse otto lingue dell'app ———
+  var T = {
+    it: { t:'Ti hanno invitato in una casa', s:'Questo codice mette il tuo telefono in comune con la dispensa e la lista della spesa di quella casa.', e:'Codice della casa', a:'Apri nell’app', c:'Copia il codice', ok:'Codice copiato', n:'Se non hai ancora l’app: installala, poi apri Impostazioni › Sincronizzazione cloud e scrivi il codice qui sopra.', v:'Questo link non contiene nessun codice. Fattelo rimandare da chi ti ha invitato.', app:'Scorte di Casa' },
+    en: { t:'You have been invited to a home', s:'This code puts your phone in touch with that home’s pantry and shopping list.', e:'Home code', a:'Open in the app', c:'Copy the code', ok:'Code copied', n:'If you don’t have the app yet: install it, then open Settings › Cloud sync and type the code above.', v:'This link contains no code. Ask whoever invited you to send it again.', app:'Home Stock' },
+    es: { t:'Te han invitado a una casa', s:'Este código conecta tu teléfono con la despensa y la lista de la compra de esa casa.', e:'Código de la casa', a:'Abrir en la app', c:'Copiar el código', ok:'Código copiado', n:'Si aún no tienes la app: instálala, abre Ajustes › Sincronización en la nube y escribe el código de arriba.', v:'Este enlace no lleva ningún código. Pide que te lo vuelvan a enviar.', app:'Mi Despensa' },
+    fr: { t:'Vous êtes invité dans un foyer', s:'Ce code relie votre téléphone au garde-manger et à la liste de courses de ce foyer.', e:'Code du foyer', a:'Ouvrir dans l’app', c:'Copier le code', ok:'Code copié', n:'Si vous n’avez pas encore l’app : installez-la, puis ouvrez Réglages › Synchronisation cloud et saisissez le code ci-dessus.', v:'Ce lien ne contient aucun code. Demandez qu’on vous le renvoie.', app:'Mes Provisions' },
+    pt: { t:'Convidaram-te para uma casa', s:'Este código liga o teu telemóvel à despensa e à lista de compras dessa casa.', e:'Código da casa', a:'Abrir na app', c:'Copiar o código', ok:'Código copiado', n:'Se ainda não tens a app: instala-a, abre Definições › Sincronização na nuvem e escreve o código acima.', v:'Esta ligação não traz nenhum código. Pede que te enviem outra vez.', app:'Minha Despensa' },
+    zh: { t:'有人邀请你加入一个家庭', s:'这个代码让你的手机与那个家庭的库存和购物清单共享。', e:'家庭代码', a:'在应用中打开', c:'复制代码', ok:'代码已复制', n:'如果还没有安装应用：先安装，然后打开“设置 › 云同步”，输入上面的代码。', v:'这个链接里没有代码。请让邀请你的人重新发送。', app:'家庭库存' },
+    ja: { t:'家に招待されています', s:'このコードで、あなたの端末がその家の在庫と買い物リストを共有します。', e:'家のコード', a:'アプリで開く', c:'コードをコピー', ok:'コードをコピーしました', n:'アプリがまだない場合：インストールしてから「設定 › クラウド同期」で上のコードを入力してください。', v:'このリンクにはコードが入っていません。招待した人にもう一度送ってもらってください。', app:'おうちの在庫' },
+    ko: { t:'집에 초대받았습니다', s:'이 코드로 내 기기가 그 집의 식료품과 장보기 목록을 함께 씁니다.', e:'집 코드', a:'앱에서 열기', c:'코드 복사', ok:'코드를 복사했습니다', n:'아직 앱이 없다면: 먼저 설치한 뒤 설정 › 클라우드 동기화에서 위 코드를 입력하세요.', v:'이 링크에는 코드가 없습니다. 초대한 사람에게 다시 보내 달라고 하세요.', app:'우리집 재고' }
+  };
+  var lingua = (navigator.language || 'it').slice(0, 2).toLowerCase();
+  var d = T[lingua] || T.en;
+
+  // ——— il codice: prima dal frammento, poi (per tolleranza) dai parametri ———
+  var grezzo = /[#?&](?:c|codice)=([^&\s]+)/i.exec(location.href);
+  var codice = (grezzo ? decodeURIComponent(grezzo[1]) : '')
+    .toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/[IL]/g, '1').replace(/O/g, '0').slice(0, 12);
+  var mostrato = codice.length >= 8 && codice.length % 4 === 0
+    ? codice.replace(/(.{4})(?=.)/g, '$1-')
+    : codice;
+
+  document.documentElement.lang = lingua;
+  document.title = d.app + ' — ' + d.e;
+  document.getElementById('titolo').textContent = d.t;
+  document.getElementById('sottotitolo').textContent = d.s;
+  document.getElementById('etichettaCodice').textContent = d.e;
+  document.getElementById('codice').textContent = mostrato || '—';
+  document.getElementById('nota').textContent = d.n;
+
+  var apri = document.getElementById('apri');
+  var copia = document.getElementById('copia');
+  apri.textContent = d.a;
+  copia.textContent = d.c;
+
+  if (!codice) {
+    // Senza codice non c'è niente da aprire: si dice cosa è successo e basta.
+    apri.style.display = 'none';
+    copia.style.display = 'none';
+    document.getElementById('nota').style.display = 'none';
+    document.getElementById('senzaCodice').textContent = d.v;
+    document.getElementById('senzaCodice').style.display = 'block';
+    return;
+  }
+
+  // Il salto nell'app avviene solo su tocco esplicito. Un rimbalzo automatico al
+  // caricamento, su un telefono senza l'app installata, mostrerebbe soltanto un
+  // errore del browser al posto di questa pagina.
+  apri.href = 'scortedicasa://casa?codice=' + codice;
+
+  copia.addEventListener('click', function () {
+    var scritto = function () { copia.textContent = d.ok; setTimeout(function () { copia.textContent = d.c; }, 2000); };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(mostrato).then(scritto, function () {});
+    } else {
+      var s = document.createElement('textarea');
+      s.value = mostrato; document.body.appendChild(s); s.select();
+      try { document.execCommand('copy'); scritto(); } catch (e) {}
+      document.body.removeChild(s);
+    }
+  });
+})();
+</script>
+</body>
+</html>
