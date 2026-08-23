@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scorte di Casa — Eliminare l'account</title>
+<!--
+  Pagina pubblica per la cancellazione dell'account.
+
+  Perché esiste: Google Play pretende che la richiesta di cancellazione si possa
+  fare anche da FUORI dall'app — l'indirizzo di questa pagina va nel campo
+  "URL per l'eliminazione dell'account" della scheda dello store. Non basta il
+  percorso dentro l'app, perché chi ha disinstallato non ce l'ha più.
+
+  Non cancella nulla da sola, e non è un difetto: senza un accesso qui dentro
+  sarebbe una porta aperta su qualunque account. Dice dove si fa in due tocchi
+  se l'app c'è ancora, e a chi scrivere se non c'è più.
+
+  Dove va pubblicata: nel repo `scorte-di-casa-config`, come
+  `elimina-account.html`, accanto a `privacy.html`.
+
+  DA COMPILARE PRIMA DI PUBBLICARE: la costante `CONTATTO` nello script.
+
+  Due lingue come l'informativa, nessuna dipendenza esterna.
+-->
+<style>
+  :root {
+    --ink: #1F261F; --muted: #70766A; --bg: #F6F3EB; --surface: #FFFFFF;
+    --well: #EDE9DC; --line: #E9E5D8; --acc: #3F5E9E; --deep: #2C4475; --soft: #E2E9F5;
+    --danger: #AC4030;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #F4F2EA; --muted: #A8AC9F; --bg: #15190F; --surface: #1E2318;
+      --well: #262C1F; --line: #333A2A; --acc: #8FACE0; --deep: #C7D6EF; --soft: #253048;
+      --danger: #E8A092;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 18px 48px; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6; display: flex; justify-content: center;
+  }
+  main { width: 100%; max-width: 560px; }
+  h1 { font-size: 24px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.4px; }
+  h2 { font-size: 16px; font-weight: 700; margin: 24px 0 8px; }
+  p, li { font-size: 15px; margin: 0 0 12px; }
+  ul, ol { padding-left: 22px; margin: 0 0 12px; }
+  li { margin-bottom: 6px; }
+  .carta {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px 18px; margin: 18px 0;
+  }
+  .passo { background: var(--well); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  .passo b { display: block; font-size: 14px; }
+  .passo span { font-size: 13.5px; color: var(--muted); }
+  .lingue { display: flex; gap: 8px; margin-bottom: 20px; }
+  .lingue button {
+    font: inherit; font-size: 14px; font-weight: 700; padding: 7px 16px;
+    border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface);
+    color: var(--muted); cursor: pointer;
+  }
+  .lingue button[aria-pressed="true"] { border-color: var(--acc); color: var(--deep); background: var(--soft); }
+  .vuoto { color: var(--danger); font-weight: 700; }
+  section[hidden] { display: none; }
+  a { color: var(--deep); }
+</style>
+</head>
+<body>
+<main>
+  <div class="lingue">
+    <button type="button" id="bIt" aria-pressed="true">Italiano</button>
+    <button type="button" id="bEn" aria-pressed="false">English</button>
+  </div>
+
+  <!-- ————————————————————————————— italiano ————————————————————————————— -->
+  <section id="it">
+    <h1>Eliminare il tuo account</h1>
+    <p>Scorte di Casa · come cancellare l’account e i dati che gli stanno intorno.</p>
+
+    <h2>Se hai ancora l’app installata</h2>
+    <p>Sono due tocchi, e non serve scrivere a nessuno.</p>
+    <div class="passo"><b>1. Apri le Impostazioni</b><span>La rotella in alto nella schermata della dispensa.</span></div>
+    <div class="passo"><b>2. Sincronizzazione cloud</b><span>Scorri fino a quella sezione.</span></div>
+    <div class="passo"><b>3. Elimina l’account</b><span>In fondo, sotto la riga. L’app ti dice cosa sparisce e chiede due conferme.</span></div>
+
+    <h2>Se hai già disinstallato l’app</h2>
+    <p>Scrivi a <strong class="contatto"></strong> dall’indirizzo email con cui
+    accedevi — è l’unico modo che abbiamo per sapere che l’account è tuo.
+    La richiesta viene eseguita entro 30 giorni.</p>
+
+    <h2>Cosa viene cancellato</h2>
+    <ul>
+      <li>Il tuo account e il tuo indirizzo email.</li>
+      <li>Le <em>case</em> di cui eri l’unico membro, con dentro dispensa, lista
+      della spesa e anagrafiche.</li>
+    </ul>
+
+    <h2>Cosa non viene cancellato</h2>
+    <ul>
+      <li>Le case che condividevi con altre persone: restano a loro, sparisce solo
+      il tuo collegamento. Se vuoi che spariscano del tutto, devono cancellarle
+      loro.</li>
+      <li>I dati sul tuo telefono: l’app continua a funzionare senza
+      sincronizzazione, con la dispensa intatta. Per togliere anche quelli basta
+      disinstallare l’app.</li>
+      <li>Le statistiche d’uso, che sono anonime e non collegate all’account:
+      nessuno può risalire da te a loro né da loro a te. Si spengono dalle
+      Impostazioni.</li>
+    </ul>
+
+    <p>Il dettaglio di cosa raccoglie l’app è nell’<a href="privacy.html">informativa privacy</a>.</p>
+  </section>
+
+  <!-- ————————————————————————————— english ————————————————————————————— -->
+  <section id="en" hidden>
+    <h1>Delete your account</h1>
+    <p>Scorte di Casa (Home Stock) · how to delete your account and the data around it.</p>
+
+    <h2>If you still have the app installed</h2>
+    <p>It takes two taps, and you do not need to write to anyone.</p>
+    <div class="passo"><b>1. Open Settings</b><span>The gear at the top of the pantry screen.</span></div>
+    <div class="passo"><b>2. Cloud sync</b><span>Scroll down to that section.</span></div>
+    <div class="passo"><b>3. Delete the account</b><span>At the bottom, below the line. The app tells you what goes away and asks twice.</span></div>
+
+    <h2>If you have already uninstalled the app</h2>
+    <p>Write to <strong class="contatto"></strong> from the email address you used
+    to sign in — that is the only way we have of knowing the account is yours.
+    Requests are carried out within 30 days.</p>
+
+    <h2>What gets deleted</h2>
+    <ul>
+      <li>Your account and your email address.</li>
+      <li>The <em>homes</em> you were the only member of, with the pantry, shopping
+      list and lists inside them.</li>
+    </ul>
+
+    <h2>What does not get deleted</h2>
+    <ul>
+      <li>Homes you shared with other people: they stay with them, and only your
+      membership disappears. If you want those gone too, they have to delete
+      them.</li>
+      <li>The data on your phone: the app keeps working without sync, with the
+      pantry untouched. To remove that as well, uninstall the app.</li>
+      <li>Usage statistics, which are anonymous and not linked to the account:
+      nobody can get from you to them or from them to you. You can turn them off
+      in Settings.</li>
+    </ul>
+
+    <p>What the app collects is spelled out in the <a href="privacy.html">privacy policy</a>.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  // ——— DA COMPILARE PRIMA DI PUBBLICARE ———
+  var CONTATTO = '';   // lo stesso indirizzo dell'informativa privacy
+
+  var mancante = { it: 'DA COMPILARE', en: 'TO BE FILLED IN' };
+  var nodi = document.querySelectorAll('.contatto');
+  for (var i = 0; i < nodi.length; i++) {
+    var lingua = nodi[i].closest('section').id === 'en' ? 'en' : 'it';
+    if (CONTATTO) {
+      nodi[i].textContent = CONTATTO;
+    } else {
+      nodi[i].textContent = mancante[lingua];
+      nodi[i].className += ' vuoto';
+    }
+  }
+
+  var it = document.getElementById('it');
+  var en = document.getElementById('en');
+  var bIt = document.getElementById('bIt');
+  var bEn = document.getElementById('bEn');
+
+  function mostra(lingua) {
+    var italiano = lingua === 'it';
+    it.hidden = !italiano;
+    en.hidden = italiano;
+    bIt.setAttribute('aria-pressed', String(italiano));
+    bEn.setAttribute('aria-pressed', String(!italiano));
+    document.documentElement.lang = lingua;
+    document.title = italiano
+      ? 'Scorte di Casa — Eliminare l’account'
+      : 'Scorte di Casa — Delete your account';
+  }
+
+  bIt.addEventListener('click', function () { mostra('it'); });
+  bEn.addEventListener('click', function () { mostra('en'); });
+  mostra((navigator.language || 'it').slice(0, 2).toLowerCase() === 'it' ? 'it' : 'en');
+})();
+</script>
+</body>
+</html>

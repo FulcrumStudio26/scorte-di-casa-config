@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scorte di Casa — Privacy</title>
+<!--
+  Informativa privacy di Scorte di Casa.
+
+  Perché esiste: Google Play non pubblica un'app con account senza un indirizzo
+  pubblico dell'informativa, e la scheda "Data safety" va compilata dicendo le
+  stesse cose che c'è scritto qui. Deve quindi restare VERA: se l'app cambia
+  quello che manda fuori, questa pagina cambia con lei.
+
+  Dove va pubblicata: nel repo `scorte-di-casa-config`, come `privacy.html`.
+  L'indirizzo risultante va nella scheda Play (Privacy policy) e in
+  `elimina-account.html`.
+
+  Due lingue, italiano e inglese, con l'interruttore in alto: un'informativa
+  tradotta a macchina in otto lingue farebbe più danni che bene. Si parte da
+  quella del telefono, e chi vuole cambia.
+
+  DA COMPILARE PRIMA DI PUBBLICARE: le due costanti qui sotto nello script,
+  `CONTATTO` (indirizzo a cui si scrive per esercitare i propri diritti) e
+  `REGIONE` (dove stanno fisicamente i server Supabase — si legge nella
+  dashboard del progetto, Settings › General › Region). Finché sono vuote la
+  pagina lo dice in rosso al posto del dato.
+
+  Nessuna dipendenza esterna: nessun font, nessuno script, nessuna immagine.
+-->
+<style>
+  :root {
+    --ink: #1F261F; --muted: #70766A; --bg: #F6F3EB; --surface: #FFFFFF;
+    --well: #EDE9DC; --line: #E9E5D8; --acc: #3F5E9E; --deep: #2C4475; --soft: #E2E9F5;
+    --danger: #AC4030;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #F4F2EA; --muted: #A8AC9F; --bg: #15190F; --surface: #1E2318;
+      --well: #262C1F; --line: #333A2A; --acc: #8FACE0; --deep: #C7D6EF; --soft: #253048;
+      --danger: #E8A092;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 18px 56px; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6; display: flex; justify-content: center;
+  }
+  main { width: 100%; max-width: 680px; }
+  h1 { font-size: 25px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.4px; }
+  h2 { font-size: 17px; font-weight: 700; margin: 28px 0 8px; }
+  p, li { font-size: 15px; margin: 0 0 12px; }
+  ul { padding-left: 22px; margin: 0 0 12px; }
+  li { margin-bottom: 6px; }
+  .data { color: var(--muted); font-size: 13.5px; margin-bottom: 20px; }
+  .carta {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px 18px; margin: 18px 0;
+  }
+  .lingue { display: flex; gap: 8px; margin-bottom: 20px; }
+  .lingue button {
+    font: inherit; font-size: 14px; font-weight: 700; padding: 7px 16px;
+    border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface);
+    color: var(--muted); cursor: pointer;
+  }
+  .lingue button[aria-pressed="true"] { border-color: var(--acc); color: var(--deep); background: var(--soft); }
+  .vuoto { color: var(--danger); font-weight: 700; }
+  section[hidden] { display: none; }
+  a { color: var(--deep); }
+</style>
+</head>
+<body>
+<main>
+  <div class="lingue">
+    <button type="button" id="bIt" aria-pressed="true">Italiano</button>
+    <button type="button" id="bEn" aria-pressed="false">English</button>
+  </div>
+
+  <!-- ————————————————————————————— italiano ————————————————————————————— -->
+  <section id="it">
+    <h1>Informativa privacy</h1>
+    <p class="data">Scorte di Casa · ultimo aggiornamento: 23 agosto 2026</p>
+
+    <div class="carta">
+      <p><strong>In breve.</strong> Senza sincronizzazione cloud l’app non manda fuori nulla:
+      dispensa, lista della spesa e impostazioni restano sul telefono. Attivando la
+      sincronizzazione escono solo il tuo indirizzo email e i dati della casa che
+      condividi. Non vendiamo dati a nessuno e non c’è pubblicità.</p>
+    </div>
+
+    <h2>Chi tratta i dati</h2>
+    <p>Il titolare del trattamento è lo sviluppatore di Scorte di Casa, che puoi
+    contattare all’indirizzo <strong class="contatto"></strong>.</p>
+
+    <h2>1. L’app senza sincronizzazione</h2>
+    <p>Appena installata, l’app funziona interamente sul dispositivo. Alimenti,
+    scadenze, lista della spesa, posizioni, categorie, negozi e impostazioni sono
+    salvati nella memoria del telefono e non vengono spediti da nessuna parte.
+    Disinstallando l’app, spariscono con lei.</p>
+
+    <h2>2. Con la sincronizzazione cloud attiva</h2>
+    <p>La sincronizzazione serve a condividere la stessa dispensa fra più
+    dispositivi — quella che nell’app si chiama <em>casa</em>. Si attiva solo se
+    la scegli tu. Da quel momento vengono trattati:</p>
+    <ul>
+      <li><strong>Il tuo indirizzo email</strong>, per riconoscerti quando accedi.
+      Non ci sono password: ricevi un codice numerico via email, valido una volta.</li>
+      <li><strong>I dati della casa</strong>: alimenti, quantità e scadenze, lista
+      della spesa, posizioni, categorie, negozi, corsie e le impostazioni
+      condivise. Sono visibili a tutte le persone che fanno parte della stessa
+      casa, cioè a chi ha il suo codice.</li>
+    </ul>
+    <p>I dati sono conservati su <strong>Supabase</strong> (Supabase Inc.), che
+    fornisce database e autenticazione, con i server nella regione
+    <strong class="regione"></strong>. L’email con il codice di accesso viene
+    recapitata da <strong>Brevo</strong> (Sendinblue SAS), che per farlo tratta il
+    tuo indirizzo. Entrambi agiscono come responsabili del trattamento.</p>
+
+    <h2>3. Statistiche d’uso anonime</h2>
+    <p>L’app può mandare statistiche su quali funzioni vengono usate, per capire
+    cosa serve davvero. Si spengono e si riaccendono dalle Impostazioni.</p>
+    <ul>
+      <li>Cosa viene mandato: un identificativo <em>casuale</em>, creato sul
+      telefono e non collegato né al tuo account né alla tua casa; paese, lingua e
+      fuso orario; sistema operativo e versione dell’app; una fotografia delle tue
+      impostazioni; e quante volte sono state usate le varie funzioni.</li>
+      <li>Cosa non viene mandato <em>mai</em>: il tuo indirizzo email, i nomi degli
+      alimenti o dei negozi, le note, e in generale qualunque testo tu abbia
+      scritto.</li>
+    </ul>
+    <p>I conteggi sono conservati aggregati per giorno.</p>
+
+    <h2>4. Lettura dei codici a barre</h2>
+    <p>Quando inquadri il codice a barre di un prodotto, il codice viene mandato a
+    <strong>Open Food Facts</strong> (associazione senza scopo di lucro, Francia)
+    per averne il nome. Non viene mandato nient’altro.</p>
+
+    <h2>5. Suggerimenti dell’intelligenza artificiale</h2>
+    <p>Sono facoltativi e funzionano solo se inserisci una tua chiave personale di
+    Google AI Studio, che resta salvata sul telefono. Quando chiedi un
+    suggerimento, vengono mandati a <strong>Google</strong> i nomi degli alimenti
+    interessati, le loro categorie e scadenze, e le preferenze di cucina che hai
+    scritto nelle impostazioni. Se non usi questa funzione, non viene mandato
+    nulla.</p>
+
+    <h2>6. Fotocamera</h2>
+    <p>Il permesso della fotocamera serve solo a leggere codici a barre e codici QR.
+    Le immagini non vengono salvate né spedite: vengono guardate e buttate.</p>
+
+    <h2>7. Per quanto tempo restano</h2>
+    <ul>
+      <li>I dati di una casa restano finché la casa esiste.</li>
+      <li>Cancellando il tuo account, le case di cui eri l’unico membro vengono
+      cancellate con tutto il loro contenuto; quelle condivise con altre persone
+      restano a loro, e sparisce solo il tuo collegamento.</li>
+      <li>I dati sul telefono non vengono toccati da nessuna cancellazione lato
+      server: l’app continua a funzionare senza sincronizzazione.</li>
+    </ul>
+
+    <h2>8. Come cancellare account e dati</h2>
+    <p>Dall’app: <em>Impostazioni › Sincronizzazione cloud › Elimina l’account</em>.
+    Dalla stessa sezione puoi anche abbandonare una casa o eliminarla, se sei
+    rimasto l’unico. In alternativa puoi scriverci a
+    <strong class="contatto"></strong> — vedi anche la pagina
+    <a href="elimina-account.html">Eliminare l’account</a>.</p>
+
+    <h2>9. I tuoi diritti</h2>
+    <p>Puoi chiedere di accedere ai tuoi dati, correggerli, cancellarli, limitarne
+    il trattamento od ottenerne una copia, e puoi opporti al trattamento. Scrivi a
+    <strong class="contatto"></strong>. Hai anche diritto di reclamo all’autorità
+    di controllo del tuo Paese (in Italia, il Garante per la protezione dei dati
+    personali).</p>
+
+    <h2>10. Minori</h2>
+    <p>L’app non è rivolta a bambini e non raccoglie consapevolmente dati di minori
+    di 13 anni.</p>
+
+    <h2>11. Modifiche</h2>
+    <p>Se cambia il modo in cui l’app tratta i dati, questa pagina viene aggiornata
+    e cambia la data in cima.</p>
+  </section>
+
+  <!-- ————————————————————————————— english ————————————————————————————— -->
+  <section id="en" hidden>
+    <h1>Privacy policy</h1>
+    <p class="data">Scorte di Casa (Home Stock) · last updated: 23 August 2026</p>
+
+    <div class="carta">
+      <p><strong>In short.</strong> Without cloud sync the app sends nothing out:
+      your pantry, shopping list and settings stay on the phone. Turning sync on
+      sends only your email address and the data of the home you share. We do not
+      sell data to anyone and there are no ads.</p>
+    </div>
+
+    <h2>Who processes the data</h2>
+    <p>The data controller is the developer of Scorte di Casa, who can be reached
+    at <strong class="contatto"></strong>.</p>
+
+    <h2>1. The app without sync</h2>
+    <p>Freshly installed, the app runs entirely on the device. Food items, expiry
+    dates, shopping list, locations, categories, shops and settings are stored in
+    the phone’s memory and are not sent anywhere. Uninstall the app and they go
+    with it.</p>
+
+    <h2>2. With cloud sync turned on</h2>
+    <p>Sync exists to share one pantry across several devices — what the app calls
+    a <em>home</em>. It is only enabled if you choose it. From then on we process:</p>
+    <ul>
+      <li><strong>Your email address</strong>, to recognise you when you sign in.
+      There are no passwords: you receive a one-time numeric code by email.</li>
+      <li><strong>The home’s data</strong>: food items, quantities and expiry
+      dates, shopping list, locations, categories, shops, aisles and the shared
+      settings. They are visible to everyone who belongs to the same home, that is
+      to whoever has its code.</li>
+    </ul>
+    <p>Data is stored on <strong>Supabase</strong> (Supabase Inc.), which provides
+    the database and authentication, with servers in the
+    <strong class="regione"></strong> region. The email carrying the sign-in code
+    is delivered by <strong>Brevo</strong> (Sendinblue SAS), which processes your
+    address in order to send it. Both act as processors.</p>
+
+    <h2>3. Anonymous usage statistics</h2>
+    <p>The app can send statistics about which features are used, to understand
+    what is actually needed. You can turn them off and on again in Settings.</p>
+    <ul>
+      <li>What is sent: a <em>random</em> identifier, created on the phone and tied
+      neither to your account nor to your home; country, language and time zone;
+      operating system and app version; a snapshot of your settings; and how many
+      times each feature was used.</li>
+      <li>What is <em>never</em> sent: your email address, the names of food items
+      or shops, notes, or any text you have typed.</li>
+    </ul>
+    <p>Counters are kept aggregated by day.</p>
+
+    <h2>4. Barcode scanning</h2>
+    <p>When you scan a product barcode, the barcode is sent to
+    <strong>Open Food Facts</strong> (a non-profit association, France) to get the
+    product name. Nothing else is sent.</p>
+
+    <h2>5. AI suggestions</h2>
+    <p>These are optional and only work if you enter your own personal Google AI
+    Studio key, which stays on the phone. When you ask for a suggestion, the names
+    of the relevant food items, their categories and expiry dates, and the cooking
+    preferences you typed in the settings are sent to <strong>Google</strong>. If
+    you do not use this feature, nothing is sent.</p>
+
+    <h2>6. Camera</h2>
+    <p>The camera permission is used only to read barcodes and QR codes. Images are
+    neither stored nor sent: they are looked at and thrown away.</p>
+
+    <h2>7. How long data is kept</h2>
+    <ul>
+      <li>A home’s data is kept as long as the home exists.</li>
+      <li>When you delete your account, the homes you were the only member of are
+      deleted along with everything in them; homes shared with other people stay
+      with them, and only your membership disappears.</li>
+      <li>Data on the phone is not touched by any server-side deletion: the app
+      keeps working without sync.</li>
+    </ul>
+
+    <h2>8. How to delete your account and data</h2>
+    <p>In the app: <em>Settings › Cloud sync › Delete the account</em>. From the
+    same section you can also leave a home, or delete it if you are the only one
+    left. Alternatively write to <strong class="contatto"></strong> — see also the
+    <a href="elimina-account.html">Delete your account</a> page.</p>
+
+    <h2>9. Your rights</h2>
+    <p>You may ask to access your data, correct it, delete it, restrict its
+    processing or obtain a copy, and you may object to processing. Write to
+    <strong class="contatto"></strong>. You also have the right to lodge a
+    complaint with the supervisory authority of your country.</p>
+
+    <h2>10. Children</h2>
+    <p>The app is not directed at children and does not knowingly collect data from
+    anyone under 13.</p>
+
+    <h2>11. Changes</h2>
+    <p>If the way the app handles data changes, this page is updated and the date
+    at the top changes with it.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  // ——— DA COMPILARE PRIMA DI PUBBLICARE ———
+  var CONTATTO = '';   // es. 'scortedicasa@example.com'
+  var REGIONE  = '';   // es. 'Europa (Francoforte)' — Supabase › Settings › General › Region
+
+  var mancante = { it: 'DA COMPILARE', en: 'TO BE FILLED IN' };
+
+  function riempi(classe, valore) {
+    var nodi = document.querySelectorAll('.' + classe);
+    for (var i = 0; i < nodi.length; i++) {
+      var lingua = nodi[i].closest('section').id === 'en' ? 'en' : 'it';
+      if (valore) {
+        nodi[i].textContent = valore;
+      } else {
+        // Meglio un buco che si vede di un dato inventato: se qualcuno pubblica
+        // la pagina senza compilarla, se ne accorge alla prima occhiata.
+        nodi[i].textContent = mancante[lingua];
+        nodi[i].className += ' vuoto';
+      }
+    }
+  }
+  riempi('contatto', CONTATTO);
+  riempi('regione', REGIONE);
+
+  // ——— lingua: quella del telefono, e chi vuole cambia ———
+  var it = document.getElementById('it');
+  var en = document.getElementById('en');
+  var bIt = document.getElementById('bIt');
+  var bEn = document.getElementById('bEn');
+
+  function mostra(lingua) {
+    var italiano = lingua === 'it';
+    it.hidden = !italiano;
+    en.hidden = italiano;
+    bIt.setAttribute('aria-pressed', String(italiano));
+    bEn.setAttribute('aria-pressed', String(!italiano));
+    document.documentElement.lang = lingua;
+    document.title = italiano ? 'Scorte di Casa — Privacy' : 'Scorte di Casa — Privacy policy';
+  }
+
+  bIt.addEventListener('click', function () { mostra('it'); });
+  bEn.addEventListener('click', function () { mostra('en'); });
+  mostra((navigator.language || 'it').slice(0, 2).toLowerCase() === 'it' ? 'it' : 'en');
+})();
+</script>
+</body>
+</html>
