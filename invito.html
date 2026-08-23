@@ -13,10 +13,12 @@
   l'app manda l'indirizzo di QUESTA pagina, e la pagina offre il pulsante che
   apre l'app.
 
-  Il codice arriva nel FRAMMENTO (#c=K7QM9XR4), non fra i parametri: il
+  Il codice arriva nel FRAMMENTO (#c=K7QM9XR4&l=it), non fra i parametri: il
   frammento non viene mai spedito al server, quindi il codice di casa non
   finisce nei log di GitHub Pages né nelle anteprime che i messaggeri generano
-  da soli aprendo il link.
+  da soli aprendo il link. Accanto al codice viaggia `l=`, la lingua di chi ha
+  mandato l'invito: si usa solo come ripiego, quando il telefono di chi apre la
+  pagina parla una lingua che l'app non ha.
 
   Dove va pubblicata: nel repo `scorte-di-casa-config` (lo stesso di config.json),
   come `invito.html`. L'indirizzo risultante va scritto in app.json ›
@@ -98,8 +100,14 @@
     ja: { t:'家に招待されています', s:'このコードで、あなたの端末がその家の在庫と買い物リストを共有します。', e:'家のコード', a:'アプリで開く', c:'コードをコピー', ok:'コードをコピーしました', n:'アプリがまだない場合：インストールしてから「設定 › クラウド同期」で上のコードを入力してください。', v:'このリンクにはコードが入っていません。招待した人にもう一度送ってもらってください。', app:'おうちの在庫' },
     ko: { t:'집에 초대받았습니다', s:'이 코드로 내 기기가 그 집의 식료품과 장보기 목록을 함께 씁니다.', e:'집 코드', a:'앱에서 열기', c:'코드 복사', ok:'코드를 복사했습니다', n:'아직 앱이 없다면: 먼저 설치한 뒤 설정 › 클라우드 동기화에서 위 코드를 입력하세요.', v:'이 링크에는 코드가 없습니다. 초대한 사람에게 다시 보내 달라고 하세요.', app:'우리집 재고' }
   };
-  var lingua = (navigator.language || 'it').slice(0, 2).toLowerCase();
-  var d = T[lingua] || T.en;
+  // La lingua: prima quella del telefono di chi apre — è lui che deve capire —
+  // e solo se non l'abbiamo si ripiega su quella di chi ha mandato l'invito
+  // (`&l=` nel frammento, scritta dall'app), che è quasi sempre una lingua in
+  // comune fra i due. L'inglese resta l'ultima spiaggia.
+  var delTelefono = (navigator.language || '').slice(0, 2).toLowerCase();
+  var diChiInvita = (/[#?&]l=([a-z]{2})/i.exec(location.href) || ['', ''])[1].toLowerCase();
+  var lingua = T[delTelefono] ? delTelefono : T[diChiInvita] ? diChiInvita : 'en';
+  var d = T[lingua];
 
   // ——— il codice: prima dal frammento, poi (per tolleranza) dai parametri ———
   var grezzo = /[#?&](?:c|codice)=([^&\s]+)/i.exec(location.href);
