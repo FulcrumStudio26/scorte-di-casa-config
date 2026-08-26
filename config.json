@@ -8,8 +8,11 @@
     "chiave": "sb_publishable_LIGp_n-_blaRylCskZpZ_A_87fd-dud"
   },
   "voto": {
-    "giorniMinimi": 0,
-    "momentiMinimi": 1,
-    "giorniFraRichieste": 7
+    "_nota": "giorni d'uso minimi / momenti buoni / richieste totali / giorni fra richieste / giorni di attesa dopo un intoppo. maxRichieste a 0 spegne la richiesta automatica per tutti.",
+    "giorniMinimi": 14,
+    "momentiMinimi": 3,
+    "maxRichieste": 3,
+    "giorniFraRichieste": 120,
+    "giorniDopoIntoppo": 14
   }
 }
